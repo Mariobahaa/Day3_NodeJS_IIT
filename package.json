@@ -1,0 +1,28 @@
+{
+  "name": "day3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express": "^4.17.1",
+    "mongodb": "^3.6.4",
+    "mongoose": "^5.11.18",
+    "nodemon": "^2.0.7"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mariobahaa/Day3_NodeJS_ITI.git"
+  },
+  "author": "Mario Bahaa",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mariobahaa/Day3_NodeJS_ITI/issues"
+  },
+  "homepage": "https://github.com/Mariobahaa/Day3_NodeJS_ITI#readme"
+}
