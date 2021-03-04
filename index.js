@@ -24,15 +24,20 @@ app.post("/user", (req, res, next) => {
                 phone: data['phone'],
                 password: hash
             });
-            newUser.save((err, data) => {
-                if (err) {
+            newUser.save((er, data) => {
+                if (er) {
                     err.statusCode = 422;
-                    res.send('An Error Occured');
+                    console.error(er.message);
+                    res.send('An Error has Occured');
                 }
                 else {
                     res.status(200).send(data);
                 }
             });
+        }
+        else{
+            console.error(err.message);
+            res.status(422).send("An Error Has occured");
         }
     });
 });
@@ -54,7 +59,7 @@ app.get('/admin', (req, res) => {
                 res.end('<br>');
             }
             else{
-                console.log(err.message);
+                console.err(err.message);
                 res.send('An Error has occured');
             }
         });
@@ -63,6 +68,22 @@ app.get('/admin', (req, res) => {
     else {
         res.redirect('/user');
     }
+});
+
+app.get("/GetUser",(req,res)=>{
+    uname = req.query.username.toString();
+    User.findOne({username:uname},(err,data)=>{
+        if(err != null || err != undefined){
+            console.error(err.message);
+            send('User Does not exist');
+        }
+        else {
+            res.contentType("text/html");
+            res.write(`<p>${data.username}</p>`);
+            res.write(`<p>${data.phone}</p>`);
+            res.end('<hr>');
+        }
+    });
 });
 
 
