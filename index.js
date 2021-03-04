@@ -118,6 +118,24 @@ app.put("/update", (req, res) => {
 
 });
 
+app.delete("/delete",(req,res)=>{
+    if(req.query.username.toString()=="admin" && req.query.name.toString()!="admin")
+    {
+        console.log(req.query.username.toString() + ' ' + req.query.name.toString());
+        User.deleteOne({username : req.query.name.toString()},(err)=>{
+            if(err){
+                console.error(err.message);
+                res.send("An Error has occured");
+            }
+            else res.send("Deleted Successfully");
+     
+        });
+    }
+    else{
+        res.redirect("/user");
+    }
+});
+
 
 app.get("*", function (req, res) {
     res.status(404).send("not matched");
