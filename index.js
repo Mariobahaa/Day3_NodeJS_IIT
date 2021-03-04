@@ -1,12 +1,12 @@
 //require('mongodb');
-require('mongoose');
+//require('mongoose');
 const express = require('express');
 const app = express();
-require("./mongooseServer");
 const port = 3000;
 var bcrypt = require('bcryptjs');
-const User = require('./mongooseServer');
+const User = require('./mongooseServer.js');
 app.use(express.json());
+
 
 
 app.post("/user", (req, res, next) => {
@@ -35,7 +35,7 @@ app.post("/user", (req, res, next) => {
                 }
             });
         }
-        else{
+        else {
             console.error(err.message);
             res.status(422).send("An Error Has occured");
         }
@@ -58,7 +58,7 @@ app.get('/admin', (req, res) => {
                 //users = await JSON.stringify(users);
                 res.end('<br>');
             }
-            else{
+            else {
                 console.err(err.message);
                 res.send('An Error has occured');
             }
@@ -70,10 +70,10 @@ app.get('/admin', (req, res) => {
     }
 });
 
-app.get("/GetUser",(req,res)=>{
+app.get("/GetUser", (req, res) => {
     uname = req.query.username.toString();
-    User.findOne({username:uname},(err,data)=>{
-        if(err != null || err != undefined){
+    User.findOne({ username: uname }, (err, data) => {
+        if (err != null && err != undefined) {
             console.error(err.message);
             send('User Does not exist');
         }
@@ -84,6 +84,38 @@ app.get("/GetUser",(req,res)=>{
             res.end('<hr>');
         }
     });
+});
+
+// username (of current user), name (name of user to update), newname(new name for updated user), phone(of updated user)
+app.put("/update", (req, res) => {
+    console.log(req.query.name.toString());
+    if (req.query.username.toString() == "admin") {
+        User.findOne({ username: req.query.name.toString() }, (er, user) => {
+            console.error("hey" + er + ' ' + user);
+            if(er!=null && er!= undefined)
+            res.send('an Error has occured');
+
+            else{
+
+            user.username = req.query.newname.toString() || user.username;
+            user.phone = parseInt(req.query.phone) || user.phone;
+            user.save((err, data) => {
+                if (err == null || err == undefined) {
+                    res.send('updated successfully');
+                }
+                else {
+                    console.error(err.message);
+                    res.send('an Error has occured');
+                }
+            });
+        }
+    }
+        );
+    }
+    else {
+        res.redirect('/user');
+    }
+
 });
 
 
